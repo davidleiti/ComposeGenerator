@@ -26,7 +26,7 @@ import com.composegenerator.model.ViewOrientation
 import com.david.composegenerator.data.toUiTextAlign
 
 @Composable
-fun GeneratedView(view: View) {
+internal fun GeneratedView(view: View) {
     if (view.visible) {
         when (view) {
             is View.Text -> GeneratedText(view = view)
@@ -43,7 +43,7 @@ fun GeneratedView(view: View) {
 }
 
 @Composable
-fun GeneratedText(view: View.Text) {
+internal fun GeneratedText(view: View.Text) {
     Text(
         text = view.text,
         style = TextStyle(
@@ -55,7 +55,7 @@ fun GeneratedText(view: View.Text) {
 }
 
 @Composable
-fun GeneratedProgressBar(view: View.Progress) {
+internal fun GeneratedProgressBar(view: View.Progress) {
     when (view.isIndeterminate) {
         true -> CircularProgressIndicator(Modifier.applyGenericAttributes(view))
         else -> CircularProgressIndicator(0F, Modifier.applyGenericAttributes(view))
@@ -63,7 +63,7 @@ fun GeneratedProgressBar(view: View.Progress) {
 }
 
 @Composable
-fun GeneratedImage(view: View.Image) {
+internal fun GeneratedImage(view: View.Image) {
     Image(
         asset = imageResource(view.source),
         modifier = Modifier.applyGenericAttributes(view)
@@ -71,7 +71,7 @@ fun GeneratedImage(view: View.Image) {
 }
 
 @Composable
-fun GeneratedButton(view: View.Button) {
+internal fun GeneratedButton(view: View.Button) {
     Button(
         onClick = {},
         modifier = Modifier.applyGenericAttributes(view)
@@ -84,7 +84,7 @@ fun GeneratedButton(view: View.Button) {
 }
 
 @Composable
-fun GeneratedLinearLayout(view: View.Container.Linear) {
+internal fun GeneratedLinearLayout(view: View.Container.Linear) {
     when (view.orientation) {
         is ViewOrientation.Vertical -> GeneratedColumn(view = view)
         is ViewOrientation.Horizontal -> GeneratedRow(view = view)
@@ -92,7 +92,7 @@ fun GeneratedLinearLayout(view: View.Container.Linear) {
 }
 
 @Composable
-fun GeneratedScrollView(view: View.Container.Scroll) {
+internal fun GeneratedScrollView(view: View.Container.Scroll) {
     VerticalScroller(
         modifier = Modifier.applyGenericAttributes(view)
     ) {
@@ -103,7 +103,7 @@ fun GeneratedScrollView(view: View.Container.Scroll) {
 }
 
 @Composable
-fun GeneratedFrame(view: View.Container.Frame) {
+internal fun GeneratedFrame(view: View.Container.Frame) {
     Box(
         modifier = Modifier.applyGenericAttributes(view)
     ) {
@@ -114,7 +114,7 @@ fun GeneratedFrame(view: View.Container.Frame) {
 }
 
 @Composable
-fun GeneratedCard(view: View.Container.Card) {
+internal fun GeneratedCard(view: View.Container.Card) {
     Card(
         modifier = Modifier.applyGenericAttributes(view)
     ) {
@@ -125,7 +125,7 @@ fun GeneratedCard(view: View.Container.Card) {
 }
 
 @Composable
-fun GeneratedRow(view: View.Container.Linear) {
+internal fun GeneratedRow(view: View.Container.Linear) {
     Row(
         modifier = Modifier.applyGenericAttributes(view)
     ) {
@@ -136,7 +136,7 @@ fun GeneratedRow(view: View.Container.Linear) {
 }
 
 @Composable
-fun GeneratedColumn(view: View.Container.Linear) {
+internal fun GeneratedColumn(view: View.Container.Linear) {
     Column(
         modifier = Modifier.applyGenericAttributes(view)
     ) {

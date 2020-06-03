@@ -13,7 +13,6 @@ sealed class ViewType {
         object Linear : Container()
         object Scroll : Container()
         object Card : Container()
-        object Table : Container()
     }
 
     companion object {
@@ -28,7 +27,6 @@ sealed class ViewType {
             "LinearLayout" -> Container.Linear
             "ScrollView" -> Container.Scroll
             "CardView" -> Container.Card
-            "TableView" -> Container.Table
             else -> throw UnsupportedViewException(tag)
         }
     }

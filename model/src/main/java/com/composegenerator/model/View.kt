@@ -8,7 +8,7 @@ sealed class View(val attributes: Set<Attribute<Any>> = setOf()) {
     class Switch(attributes: Set<Attribute<Any>>) : View(attributes)
     class Progress(attributes: Set<Attribute<Any>>) : View(attributes)
 
-    sealed class Container(attributes: Set<Attribute<Any>>, val children: List<out View>) :
+    sealed class Container(attributes: Set<Attribute<Any>>, val children: List<View>) :
         View(attributes) {
         class Frame(attributes: Set<Attribute<Any>>, children: List<View>) :
             Container(attributes, children)
@@ -20,9 +20,6 @@ sealed class View(val attributes: Set<Attribute<Any>> = setOf()) {
             Container(attributes, children)
 
         class Scroll(attributes: Set<Attribute<Any>>, children: List<View>) :
-            Container(attributes, children)
-
-        class Table(attributes: Set<Attribute<Any>>, children: List<View>) :
             Container(attributes, children)
 
         internal val childrenString: String

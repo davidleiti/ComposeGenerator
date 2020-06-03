@@ -28,7 +28,6 @@ internal val ViewType.specificAttributes: Set<AttributeType>
                 AttributeType.Orientation
             )
             ViewType.Container.Card -> setOf()
-            ViewType.Container.Table -> setOf()
             ViewType.Container.Scroll -> setOf()
         }
     }

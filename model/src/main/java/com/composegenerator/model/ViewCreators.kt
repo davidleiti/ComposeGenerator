@@ -21,6 +21,5 @@ fun ViewType.Container.create(
         ViewType.Container.Linear -> View.Container.Linear(attributes, children)
         ViewType.Container.Scroll -> View.Container.Scroll(attributes, children)
         ViewType.Container.Card -> View.Container.Card(attributes, children)
-        ViewType.Container.Table -> View.Container.Table(attributes, children)
     }
 }

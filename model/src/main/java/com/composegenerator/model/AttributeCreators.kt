@@ -1,6 +1,5 @@
 package com.composegenerator.model
 
-
 fun AttributeType.create(value: Int): Attribute<Any> =
     when (this) {
         AttributeType.ID -> Attribute.ID(value)

@@ -2,6 +2,7 @@ package com.david.composegenerator.data
 
 import android.content.Context
 import android.content.res.XmlResourceParser
+import androidx.annotation.LayoutRes
 import com.composegenerator.model.Attribute
 import com.composegenerator.model.AttributeType
 import com.composegenerator.model.LayoutDimension
@@ -17,10 +18,10 @@ import com.composegenerator.model.valueType
 import org.xmlpull.v1.XmlPullParser.END_TAG
 import org.xmlpull.v1.XmlPullParser.START_TAG
 
-class DefaultLayoutViewExtractor(private val context: Context) : LayoutViewExtractor {
+internal class XmlLayoutViewExtractor(private val context: Context) : LayoutViewExtractor {
 
-    override fun extractRootView(resourceId: Int): View {
-        val parser = context.resources.getLayout(resourceId)
+    override fun extractRootView(@LayoutRes layoutResource: Int): View {
+        val parser = context.resources.getLayout(layoutResource)
         while (parser.eventType != START_TAG) {
             parser.next()
         }
