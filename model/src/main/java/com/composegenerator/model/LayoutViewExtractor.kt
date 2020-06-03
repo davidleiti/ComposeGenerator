@@ -1,5 +1,5 @@
 package com.composegenerator.model
 
-interface XmlViewExtractor {
+interface LayoutViewExtractor {
     fun extractRootView(resourceId: Int): View
 }

@@ -1,8 +1,9 @@
-package com.david.composegenerator.xmlparser
+package com.david.composegenerator.data
 
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.ui.text.style.TextAlign
 import com.composegenerator.model.LayoutDimension
 import com.composegenerator.model.ViewOrientation
 import com.composegenerator.model.ViewTextAlignment
@@ -13,6 +14,12 @@ internal fun Int.toTextAlignment(): ViewTextAlignment = when (this) {
     View.TEXT_ALIGNMENT_TEXT_END, View.TEXT_ALIGNMENT_VIEW_END -> ViewTextAlignment.End
     View.TEXT_ALIGNMENT_TEXT_START, View.TEXT_ALIGNMENT_VIEW_START -> ViewTextAlignment.Start
     else -> ViewTextAlignment.Start
+}
+
+internal fun ViewTextAlignment.toUiTextAlign(): TextAlign = when (this) {
+    ViewTextAlignment.Start -> TextAlign.Start
+    ViewTextAlignment.End -> TextAlign.End
+    ViewTextAlignment.Center -> TextAlign.Center
 }
 
 internal fun Int.toLayoutDimension(): LayoutDimension = when (this) {

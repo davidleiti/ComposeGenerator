@@ -10,7 +10,7 @@ sealed class AttributeType {
     object Checked : AttributeType()
     object IsIndeterminate : AttributeType()
     object Visibility : AttributeType()
-    object TextAlignment: AttributeType()
+    object TextAlignment : AttributeType()
     object Orientation : AttributeType()
     object Enabled : AttributeType()
     object Clickable : AttributeType()

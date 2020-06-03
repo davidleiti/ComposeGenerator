@@ -4,11 +4,12 @@ package com.composegenerator.model
 fun AttributeType.create(value: Int): Attribute<Any> =
     when (this) {
         AttributeType.ID -> Attribute.ID(value)
+        AttributeType.Source -> Attribute.Source(value)
         AttributeType.TextSize -> Attribute.TextSize(value)
-        AttributeType.PaddingTop -> Attribute.TextSize(value)
-        AttributeType.PaddingBottom -> Attribute.TextSize(value)
-        AttributeType.PaddingStart -> Attribute.TextSize(value)
-        AttributeType.PaddingEnd -> Attribute.TextSize(value)
+        AttributeType.PaddingTop -> Attribute.PaddingTop(value)
+        AttributeType.PaddingBottom -> Attribute.PaddingBottom(value)
+        AttributeType.PaddingStart -> Attribute.PaddingStart(value)
+        AttributeType.PaddingEnd -> Attribute.PaddingEnd(value)
         else -> throw InvalidAttributeValue(toString(), value.toString())
     }
 
@@ -21,7 +22,6 @@ fun AttributeType.create(value: Boolean): Attribute<Any> =
         AttributeType.IsIndeterminate -> Attribute.Indeterminate(value)
         else -> throw InvalidAttributeValue(toString(), value.toString())
     }
-
 
 fun AttributeType.create(value: String): Attribute<Any> =
     when (this) {

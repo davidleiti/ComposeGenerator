@@ -1,26 +1,23 @@
-package com.david.composegenerator.xmlparser
+package com.david.composegenerator.data
 
 import android.content.Context
 import android.content.res.XmlResourceParser
 import com.composegenerator.model.Attribute
 import com.composegenerator.model.AttributeType
 import com.composegenerator.model.LayoutDimension
+import com.composegenerator.model.LayoutViewExtractor
 import com.composegenerator.model.ValueType
 import com.composegenerator.model.View
 import com.composegenerator.model.ViewType
-import com.composegenerator.model.XmlViewExtractor
 import com.composegenerator.model.create
 import com.composegenerator.model.nameSpace
 import com.composegenerator.model.supportedAttributes
 import com.composegenerator.model.tag
 import com.composegenerator.model.valueType
-import org.w3c.dom.Attr
 import org.xmlpull.v1.XmlPullParser.END_TAG
 import org.xmlpull.v1.XmlPullParser.START_TAG
-import org.xmlpull.v1.XmlPullParserException
-import java.io.IOException
 
-class DefaultXmlViewExtractor(private val context: Context) : XmlViewExtractor {
+class DefaultLayoutViewExtractor(private val context: Context) : LayoutViewExtractor {
 
     override fun extractRootView(resourceId: Int): View {
         val parser = context.resources.getLayout(resourceId)
@@ -30,7 +27,6 @@ class DefaultXmlViewExtractor(private val context: Context) : XmlViewExtractor {
         return parser.extractView()
     }
 
-    @Throws(XmlPullParserException::class, IOException::class)
     private fun XmlResourceParser.extractView(): View {
         val type = ViewType.createFromTag(name)
         val attributes = extractAttributes(type.supportedAttributes)
@@ -70,39 +66,46 @@ class DefaultXmlViewExtractor(private val context: Context) : XmlViewExtractor {
         return children
     }
 
-    private fun XmlResourceParser.extractStringAttribute(type: AttributeType): Attribute<Any>? {
-        val defaultValue = Int.MIN_VALUE
-        val resourceId = getAttributeResourceValue(type.nameSpace, type.tag, defaultValue)
-        return when {
-            resourceId != defaultValue -> type.create(context.getString(resourceId))
-            else -> getAttributeValue(type.nameSpace, type.tag)?.let { value -> type.create(value) }
+    private fun XmlResourceParser.extractStringAttribute(type: AttributeType): Attribute<Any>? =
+        extractAttributeResourceId(type)?.let { resourceId ->
+            type.create(context.getString(resourceId))
+        } ?: run {
+            getAttributeValue(type.nameSpace, type.tag)?.let { value -> type.create(value) }
         }
-    }
 
     private fun XmlResourceParser.extractBooleanAttribute(type: AttributeType): Attribute<Any>? =
         getAttributeValue(type.nameSpace, type.tag)?.let {
-            type.create(getAttributeBooleanValue(type.nameSpace, type.tag, false))
+            val value = getAttributeBooleanValue(type.nameSpace, type.tag, false)
+            type.create(value)
         }
 
-    private fun XmlResourceParser.extractIntAttribute(type: AttributeType): Attribute<Any>? {
-        val defaultValue = Int.MIN_VALUE
-        val resourceId = getAttributeResourceValue(type.nameSpace, type.tag, defaultValue)
-        return if (resourceId != defaultValue) {
+    private fun XmlResourceParser.extractIntAttribute(type: AttributeType): Attribute<Any>? =
+        extractAttributeResourceId(type)?.let { resourceId ->
             createResourceAttribute(type, resourceId)
-        } else {
+        } ?: run {
             createRawAttribute(type)
         }
+
+    private fun XmlResourceParser.extractAttributeResourceId(type: AttributeType): Int? {
+        val defaultValue = Int.MIN_VALUE
+        val resourceId = getAttributeResourceValue(type.nameSpace, type.tag, defaultValue)
+        return if (resourceId != defaultValue) resourceId else null
     }
 
     private fun createResourceAttribute(type: AttributeType, resourceId: Int): Attribute<Any>? {
         return when (type) {
-            AttributeType.ID -> type.create(resourceId)
-            AttributeType.LayoutWidth, AttributeType.LayoutHeight -> {
+            AttributeType.ID, AttributeType.Source -> type.create(resourceId)
+            AttributeType.LayoutWidth,
+            AttributeType.LayoutHeight -> {
                 val dimension = context.getDimensionInDp(resourceId)
                 val layoutDimension = LayoutDimension.FixedSize(dimension)
                 type.create(layoutDimension)
             }
-            AttributeType.TextSize -> {
+            AttributeType.TextSize,
+            AttributeType.PaddingBottom,
+            AttributeType.PaddingEnd,
+            AttributeType.PaddingStart,
+            AttributeType.PaddingTop -> {
                 val dimension = context.getDimensionInDp(resourceId)
                 type.create(dimension)
             }
@@ -121,7 +124,11 @@ class DefaultXmlViewExtractor(private val context: Context) : XmlViewExtractor {
                 AttributeType.TextAlignment -> type.create(value.toTextAlignment())
                 AttributeType.Visibility -> type.create(value.toViewVisibility())
                 AttributeType.Orientation -> type.create(value.toViewOrientation())
-                AttributeType.TextSize -> type.create(value)
+                AttributeType.TextSize,
+                AttributeType.PaddingStart,
+                AttributeType.PaddingTop,
+                AttributeType.PaddingBottom,
+                AttributeType.PaddingEnd -> type.create(value)
                 else -> null
             }
         } else {
@@ -130,8 +137,7 @@ class DefaultXmlViewExtractor(private val context: Context) : XmlViewExtractor {
     }
 
     private fun XmlResourceParser.getRawIntAttributeValue(type: AttributeType): Int? = try {
-        val value = getAttributeValue(type.nameSpace, type.tag)
-        value.replace(Regex("[a-zA-Z]"), "").toFloat().toInt()
+        getAttributeValue(type.nameSpace, type.tag).replace(Regex("[a-zA-Z]"), "").toFloat().toInt()
     } catch (exception: Exception) {
         null
     }

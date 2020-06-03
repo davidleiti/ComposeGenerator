@@ -1,4 +1,4 @@
-package com.david.composegenerator.xmlparser
+package com.david.composegenerator.data
 
 import android.content.Context
 

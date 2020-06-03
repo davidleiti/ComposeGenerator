@@ -12,7 +12,7 @@ sealed class Attribute<out T : Any>(val value: T) {
     class Visibility(value: ViewVisibility) : Attribute<ViewVisibility>(value)
     class Orientation(value: ViewOrientation) : Attribute<ViewOrientation>(value)
     class Enabled(value: Boolean) : Attribute<Boolean>(value)
-    class TextAlignment(value: ViewTextAlignment): Attribute<ViewTextAlignment>(value)
+    class TextAlignment(value: ViewTextAlignment) : Attribute<ViewTextAlignment>(value)
     class Clickable(value: Boolean) : Attribute<Boolean>(value)
     class Hint(value: String) : Attribute<String>(value)
     class Focusable(value: Boolean) : Attribute<Boolean>(value)
