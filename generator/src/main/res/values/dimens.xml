@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="text_normal">12sp</dimen>
-    <dimen name="text_large">20sp</dimen>
-    <dimen name="text_width">20dp</dimen>
-    <dimen name="padding_normal">20dp</dimen>
-    <dimen name="padding_xxlarge">100dp</dimen>
-    <dimen name="size_default">60dp</dimen>
-</resources>
