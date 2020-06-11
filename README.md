@@ -195,7 +195,6 @@ allprojects {
   }
 }
 ```
-_build.gradle_
 
 Declare the dependency in the module’s build.gradle file
 ```gradle
@@ -203,7 +202,6 @@ dependencies {
  implementation 'com.github.davidleiti:ComposeGenerator:1.0.1-alpha01'
 }
 ```
-_app:build.gradle_
 
 ## Usage
 Using the framework is relatively straight-forward, the steps for converting a standard Android layout defined
