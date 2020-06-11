@@ -178,9 +178,7 @@ classes. Extension properties work in a similar manner as they can be easily tho
 of as custom getter functions hidden behind standard property syntax.
 
 As such, these extensions provide a highly convenient and elegant way of retrieving
-information and reasoning about certain objects possibly based on their type. They
-are, as such, highly powerful tools especially when being used in concordance with
-hierarchies of well-defined sealed classes.
+information and reasoning about certain objects possibly based on their type. Because of this, they are highly powerful tools especially when being used in concordance with hierarchies of well-defined sealed classes.
 
 ## Installation
 The project is hosted on JitPack with the following installation steps for Gradle
