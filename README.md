@@ -66,7 +66,6 @@ fun Message(content: String) {
   )
 }
 ```
-_MainActivity.kt_
 
 Compared to this, above we have the exact same UI element defined
 and used via Jetpack Compose. The core concept here is the @Composable
@@ -121,7 +120,6 @@ interface LayoutViewExtractor {
   fun extractRootView(layoutResource: Int): View
 }
 ```
-_LayoutViewExtractor.kt_
 
 The model of the UI elements and their attributes that are to be extracted from the
 layouts is in a very large part composed of [sealed class](https://kotlinlang.org/docs/reference/sealed-classes.html)
@@ -165,7 +163,6 @@ fun UiElement(view: View) {
   GeneratedView(view)
 }
 ```
-_ComposeGenerator.kt - The core API exposed by the framework._
 
 The implementation of the data extraction phase as well as some of the intermediate
 data transformations heavily relies on Kotlin’s [extension functions and properties](https://kotlinlang.org/docs/reference/extensions.html).
@@ -195,7 +192,6 @@ allprojects {
   }
 }
 ```
-_build.gradle_
 
 Declare the dependency in the module’s build.gradle file
 ```gradle
@@ -203,7 +199,6 @@ dependencies {
  implementation 'com.github.davidleiti:ComposeGenerator:1.0.1-alpha01'
 }
 ```
-_app:build.gradle_
 
 ## Usage
 Using the framework is relatively straight-forward, the steps for converting a standard Android layout defined
