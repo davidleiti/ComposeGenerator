@@ -1,18 +1,18 @@
 # Compose Generator
 Compose Generator is a framework that aims to provide compatibility between the
-standard Android XML layouts and Jetpack Compose, Google’s newest toolkit for native Android UI development.
+standard [Android XML layouts](https://developer.android.com/guide/topics/ui/declaring-layout) and [Jetpack Compose](https://developer.android.com/jetpack/compose), Google’s newest toolkit for native Android UI development.
 ## Jetpack Compose
 Jetpack Compose is a library that is being developed by Google in order to create a
 more modern and versatile framework for Android UI development. The existing
-View-based UI framework is as old as Android itself and thus it has many features
-within it that were created for old devices and based on old methodologies.
+View-based UI framework is as old as Android itself and because of this it has many features
+that were created for old devices and based on old methodologies.
 Inspired by recent web languages such as Flutter, React, Litho, and Vue.js, Jetpack
 Compose allows developers to create UI components in a declarative manner.
-What Jetpack Compose offers in essence is a new Kotlin-based API for creating
+What Jetpack Compose offers is a new Kotlin-based API for creating
 Android user interfaces in a declarative manner. In Compose, rather than having the
 UI elements of our applications be managed via View object hierarchies that are
 defined in completely separate XML files, the components of the UI are instead
-created as a hierarchy of composable Kotlin functions.
+created as a hierarchy of **@Composable** Kotlin functions.
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -36,9 +36,9 @@ class MainActivity : AppCompatActivity() {
 _MainActivity.kt_
 
 Above we can see a very simple Android UI element composed of only a simple text
-view, and it can be remarked how the definition of the interface itself is defined in a
+view. With this approach, the definition of the interface itself is defined in a
 manner completely different than that of the programming style in which most of the
-Android development is realized (i.e. XML view and attribute definitions vs dynamic
+Android development is done (i.e. XML view and attribute definitions vs dynamic
 Kotlin programming)
 ```kotlin
 class MainActivity : ComponentActivity() {
@@ -68,10 +68,10 @@ fun Message(content: String) {
 ```
 _MainActivity.kt_
 
-Compared to this, above we can see how the exact same UI element can be defined
+Compared to this, above we have the exact same UI element defined
 and used via Jetpack Compose. The core concept here is the @Composable
 annotation which marks that the function on which it is applied to is a so-called
-composable function, meaning that it defines a piece of user interface in a
+Composable function, meaning that it defines a piece of user interface in a
 declarative manner using Kotlin types and functions. The Text() function is, in turn,
 also a Composable function from which a text view will be rendered on the screen
 based on the parameters it has been given and the subsequent Composable
@@ -84,10 +84,6 @@ developed for the iOS ecosystem in the form of SwiftUI, which has seen some
 remarkable adoption rates and has been heavily pushed by Apple.
 
 ## Objective
-The purpose of the Compose Generator framework is to provide a solution for
-developers working on large legacy projects that are willing to experiment or adopt
-the new Compose APIs but are in a tough position given the large size of UI
-components and code which they have to incorporate into the development process.
 
 Even though Compose offers great backwards-compatibility meaning that it is
 available for lower-level Android API levels as well as compatibility with existing
@@ -106,10 +102,10 @@ without any of the extra code and time investment.
 ## Implementation
 
 The framework has been written entirely in Kotlin and is structured into two main
-modules: model and generator. The model is a plain Kotlin module where the
+modules: **model** and **generator**. The **model** is a plain Kotlin module where the
 objects that will be extracted from the XML layout are defined, which are essentially
-class hierarchies that are derived from View, Attribute and attribute value classes,
-that represent the building blocks of classical Android user interfaces. These are for
+class hierarchies that are derived from **View**, **Attribute** and attribute value classes,
+that represent the building blocks of classic Android user interfaces. These are for
 the most part a hierarchy of View objects and attributes associated to these views.
 
 Along these objects, each View and Attribute is associated with a ViewType and
@@ -128,20 +124,19 @@ interface LayoutViewExtractor {
 _LayoutViewExtractor.kt_
 
 The model of the UI elements and their attributes that are to be extracted from the
-layouts is in a very large part composed of sealed class object hierarchies. In Kotlin,
-Sealed classes are used for representing restricted class hierarchies, when a value
+layouts is in a very large part composed of [sealed class](https://kotlinlang.org/docs/reference/sealed-classes.html)
+object hierarchies. In Kotlin,
+Sealed Classes are used for representing restricted class hierarchies, when a value
 can have one of the types from a limited set, but cannot have any other type. They
 are, in a sense, an extension of enum classes: the set of values for an enum type is
 also restricted, but each enum constant exists only as a single instance, whereas a
 subclass of a sealed class can have multiple instances which can contain state.
-
 These specifications make the sealed class approach used for modeling complex
 View hierarchies a straightforward choice, especially when thinking about the
 simplicity and safety provided by them in combination with Kotlin’s powerful when
-statement and extension functions (more on these when presenting the upcoming
-implementation aspects).
+statement and [extension functions](https://kotlinlang.org/docs/reference/extensions.html).
 
-In the generator (Android module) the actual implementation of the view extraction
+In the **generator** (Android module) the actual implementation of the view extraction
 is found in the form of the XmlLayoutExtractor class. This class internally uses and
 extends the XmlResourceParser interface provided by the Android framework to
 extract the View objects along the set of attributes supported by the Compose
@@ -173,11 +168,11 @@ fun UiElement(view: View) {
 _ComposeGenerator.kt - The core API exposed by the framework._
 
 The implementation of the data extraction phase as well as some of the intermediate
-data transformations heavily relies on Kotlin’s extension functions and properties.
+data transformations heavily relies on Kotlin’s [extension functions and properties](https://kotlinlang.org/docs/reference/extensions.html).
 Such functions and properties provide the ability to essentially extend the
 functionality and characteristics of the classes they are written for without having to
 inherit from them or affect their inner implementation. When defining extension
-functions, the this keyword will refer to the receiver object of the function for which it
+functions, the ```this``` keyword will refer to the receiver object of the function for which it
 was defined, allowing for a concise and elegant way of enriching the underlying
 classes. Extension properties work in a similar manner as they can be easily thought
 of as custom getter functions hidden behind standard property syntax.
@@ -211,14 +206,13 @@ dependencies {
 _app:build.gradle_
 
 ## Usage
-Given the relative simplicity of the API exposed from the framework, its core usage is
-also very straight-forward. The steps to converting a standard Android layout defined
-in activity_main.xml for this example:
-* Retrieve an instance of a LayoutViewExtractor interface from
+Using the framework is relatively straight-forward, the steps for converting a standard Android layout defined
+in activity_main.xml for this example is done in the following steps:
+* Retrieve an instance of a ```LayoutViewExtractor``` interface from
 ComposeGenerator by providing it the application context
-* Extract the root view of the layout via viewExtractor.extractRootView() by
+* Extract the root view of the layout via ```viewExtractor.extractRootView()``` by
 providing the target layout identifier
-* Use the generated Compose element in a @Composable function such as
+* Use the generated Compose element in a ```@Composable``` function such as
 ```ComponentActivity.setContent { ... }```
 ```kotlin
 class MainActivity : ComponentActivity() {
@@ -249,10 +243,3 @@ clickable, hint, focusable, paddingTop, paddingBottom, paddingStart,
 paddingEnd
 - No support for relationship attributes between views such as constraints
 relative to other views
-## References
-- Jetpack Compose: https://developer.android.com/jetpack/compose
-- Android layouts:
-https://developer.android.com/guide/topics/ui/declaring-layout
-- Kotlin extensions: https://kotlinlang.org/docs/reference/extensions.html
-- Kotlin sealed classes:
-https://kotlinlang.org/docs/reference/sealed-classes.html
