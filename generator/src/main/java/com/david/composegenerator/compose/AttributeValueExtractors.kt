@@ -1,16 +1,20 @@
 package com.david.composegenerator.compose
 
+import android.widget.Button
 import com.composegenerator.model.Attribute
 import com.composegenerator.model.LayoutDimension
+import com.composegenerator.model.UiAction
 import com.composegenerator.model.View
 import com.composegenerator.model.ViewOrientation
 import com.composegenerator.model.ViewTextAlignment
 import com.composegenerator.model.ViewVisibility
 import com.david.composegenerator.R
+import com.david.composegenerator.data.UiActionsMap
 
 internal const val DEFAULT_TEXT_SIZE = 12
 internal const val PADDING_NONE = 0
 
+internal val View.id: Int? get() = getAttributeValue<Int, Attribute.ID>()
 internal val View.text: String get() = getAttributeValue<String, Attribute.Text>().orEmpty()
 internal val View.textSize: Int get() = getAttributeValue<Int, Attribute.TextSize>() ?: DEFAULT_TEXT_SIZE
 internal val View.Progress.isIndeterminate: Boolean get() = getAttributeValue<Boolean, Attribute.Indeterminate>() ?: false
@@ -24,6 +28,16 @@ internal val View.paddingTop: Int get() = getAttributeValue<Int, Attribute.Paddi
 internal val View.paddingBottom: Int get() = getAttributeValue<Int, Attribute.PaddingBottom>() ?: PADDING_NONE
 internal val View.paddingStart: Int get() = getAttributeValue<Int, Attribute.PaddingStart>() ?: PADDING_NONE
 internal val View.paddingEnd: Int get() = getAttributeValue<Int, Attribute.PaddingEnd>() ?: PADDING_NONE
+
+internal inline fun <reified T: UiAction> View.supportsActionNatively() = when (T::class) {
+    UiAction.OnClick::class -> when (this) {
+        is Button -> true
+        else -> false
+    }
+    else -> false
+}
+
+internal inline fun <reified T: UiAction> View.extractAction(actionsMap: UiActionsMap): T? = id?.let { id -> actionsMap.get<T>(id) }
 
 internal inline fun <S, reified T : Attribute<S>> View.getAttributeValue(): S? =
     (attributes.firstOrNull { it is T } as? T)?.value

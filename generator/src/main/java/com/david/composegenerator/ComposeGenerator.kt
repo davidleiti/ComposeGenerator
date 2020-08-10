@@ -5,6 +5,7 @@ import androidx.compose.Composable
 import com.composegenerator.model.LayoutViewExtractor
 import com.composegenerator.model.View
 import com.david.composegenerator.compose.GeneratedView
+import com.david.composegenerator.data.UiActionsMap
 import com.david.composegenerator.data.XmlLayoutViewExtractor
 
 abstract class ComposeGenerator {
@@ -14,6 +15,6 @@ abstract class ComposeGenerator {
 }
 
 @Composable
-fun UiElement(view: View) {
-    GeneratedView(view)
+fun UiElement(view: View, uiActions: UiActionsMap = UiActionsMap()) {
+    GeneratedView(view, uiActions)
 }
