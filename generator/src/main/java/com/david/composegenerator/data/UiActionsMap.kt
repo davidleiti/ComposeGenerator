@@ -2,9 +2,9 @@ package com.david.composegenerator.data
 
 import com.composegenerator.model.UiAction
 
-class UiActionsMap(elements: List<Pair<Int, UiAction>> = listOf()) {
+class UiActionsMap(vararg actions: Pair<Int, UiAction>) {
 
-    val actionsMap: MutableMap<Int, UiAction> = mutableMapOf<Int, UiAction>().apply { putAll(elements) }
+    val actionsMap: MutableMap<Int, UiAction> = mutableMapOf<Int, UiAction>().apply { putAll(actions) }
 
     inline operator fun <reified T : UiAction?> get(viewRes: Int): T? =
         actionsMap.entries.firstOrNull { it.value is T && it.key == viewRes }?.value as T?
