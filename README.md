@@ -225,11 +225,8 @@ class MainActivity : ComponentActivity() {
 _MainActivity.kt_
 
 ## Limitations & Further improvements
-- Static layouts - Currently there is no way of interacting with the generated UI
-components, meaning that they won’t be able to react to touch feedback and
-they can’t be updated after being generated
-- Limited number of supported Views and Attributes - the only view and
-attribute types supported by the framework are the following:
+- Limited number of supported Views, Attributes, and UiActions - the only
+types supported by the framework are the following:
   - View types: TextView, ImageView, Button, CheckBox, Switch,
 ProgressBar, FrameLayout, LinearLayout, CardView, ScrollView,
 TableView
@@ -237,5 +234,8 @@ TableView
 checked, indeterminate, visibility, textAlignment, orientation, enabled,
 clickable, hint, focusable, paddingTop, paddingBottom, paddingStart,
 paddingEnd
+  - UiActions: currently the framework only allows for binding OnClick 
+actions to the generated composables by specifiying the Id of the source
+views
 - No support for relationship attributes between views such as constraints
-relative to other views
+relative to each other
